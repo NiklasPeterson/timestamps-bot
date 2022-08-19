@@ -1,0 +1,14 @@
+{
+  "name": "discord-captcha-bot",
+  "version": "1.0.0",
+  "description": "Bot that adds captcha verification to your Discord Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NiklasPeterson",
+  "dependencies": {
+    "captcha-canvas": "^3.2.1",
+    "discord.js": "^13.7.0"
+  }
+}
