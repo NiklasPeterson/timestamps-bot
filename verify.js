@@ -45,7 +45,7 @@ module.exports = async (client) => {
         } else {
           let embed = new MessageEmbed()
             // .setFooter("Verification Period: 1 minutes")
-            .setColor("BLURPLE")
+            .setColor("WHITE")
             .setTitle(`Gatekeeper of ${interaction.guild.name}`)
             .setDescription(`Welcome to ${interaction.guild.name}! To get access to this server verify that you arent a bot by completing the captcha.
 
