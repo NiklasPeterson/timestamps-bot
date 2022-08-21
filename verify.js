@@ -1,21 +1,11 @@
-const {
-  Client,
-  MessageEmbed,
-  MessageButton,
-  MessageActionRow,
-  MessageAttachment,
-} = require("discord.js");
+const { Client, MessageEmbed, MessageButton, MessageActionRow, MessageAttachment,} = require("discord.js");
+const { Captcha } = require("captcha-canvas");
 
 const dotenv = require('dotenv');
 dotenv.config();
 
-
 const VERIFIED_ROLE_ID = process.env.VERIFIED_ROLE_ID;
-const WELCOME_CHANNEL = process.env.WELCOME_CHANNEL;
-
-
-const { Captcha } = require("captcha-canvas");
-const captcha = new Captcha();
+const WELCOME_CHANNEL_ID = process.env.WELCOME_CHANNEL_ID;
 
 /**
  *
@@ -33,7 +23,7 @@ module.exports = async (client) => {
           });
         }
 
-        let verifyChannel = interaction.guild.channels.cache.get(WELCOME_CHANNEL);
+        let verifyChannel = interaction.guild.channels.cache.get(WELCOME_CHANNEL_ID);
         let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
 
         if (!verifyChannel || !verifyRole) {
@@ -93,6 +83,8 @@ module.exports = async (client) => {
               ephemeral: true,
             });
           }
+
+          const captcha = new Captcha();
 
           // creatings captcha
           captcha.async = true;
