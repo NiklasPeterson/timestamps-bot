@@ -1,15 +1,5 @@
-const {
-  Client,
-  MessageEmbed,
-  MessageButton,
-  MessageActionRow,
-  MessageAttachment,
-  Modal,
-  TextInputComponent,
-} = require("discord.js");
-
+const { Client, MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
 const { Captcha } = require("captcha-canvas");
-const captcha = new Captcha();
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -96,6 +86,7 @@ module.exports = async (client) => {
             });
           }
 
+        const captcha = new Captcha();
           // creatings captcha
           captcha.async = true;
           captcha.addDecoy();
@@ -213,8 +204,13 @@ module.exports = async (client) => {
         }
         // If the user enters wrong captcha
         else {
+
+          let wrongCaptcha = new MessageEmbed()
+            .setColor("WHITE")
+            .setTitle(`💀 You have failed the verification.`)
+            .setDescription(`You were kicked from \`${interaction.guild.name}\`, because entered the wrong captcha...`)
           await interaction.user.send({
-            content: `💀 You're kicked from ${interaction.guild.name}! Because entered the wrong captcha...`,
+            embeds: [wrongCaptcha],
             ephemeral: true,
           });
           interaction.member.kick().catch((e) => { });
