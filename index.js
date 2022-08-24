@@ -1,10 +1,10 @@
 const { Client } = require("discord.js");
 
-const dotenv = require('dotenv');
-dotenv.config();
-
-const TOKEN = process.env.TOKEN;
-const GUILD_ID = process.env.GUILD_ID;
+const dotenv = require('dotenv')
+// import config IDs
+dotenv.config()
+const TOKEN = process.env.TOKEN
+const GUILD_ID = process.env.GUILD_ID
 
 const client = new Client({
   intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],

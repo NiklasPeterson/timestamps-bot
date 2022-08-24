@@ -1,17 +1,11 @@
-const { Client, MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
+const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
 const { Captcha } = require("captcha-canvas");
 
-const dotenv = require('dotenv');
-dotenv.config();
+const WELCOME_CHANNEL_ID='1010865563624554597'
+const VERIFIED_ROLE_ID='941311574306586644'
 
-const WELCOME_CHANNEL_ID = process.env.WELCOME_CHANNEL_ID;
-const VERIFIED_ROLE_ID = process.env.VERIFIED_ROLE_ID;
 let captcha;
 
-/**
- *
- * @param {Client} client
- */
 module.exports = async (client) => {
 
   client.on("interactionCreate", async (interaction) => {
