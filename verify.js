@@ -6,7 +6,7 @@ dotenv.config();
 
 const WELCOME_CHANNEL_ID = process.env.WELCOME_CHANNEL_ID;
 const VERIFIED_ROLE_ID = process.env.VERIFIED_ROLE_ID;
-
+let captcha;
 /**
  *
  * @param {Client} client
@@ -86,7 +86,7 @@ module.exports = async (client) => {
             });
           }
 
-        const captcha = new Captcha();
+          captcha = new Captcha();
           // creatings captcha
           captcha.async = true;
           captcha.addDecoy();
