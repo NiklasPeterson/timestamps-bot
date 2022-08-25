@@ -10,56 +10,56 @@ module.exports = async (client) => {
 
   client.on("interactionCreate", async (interaction) => {
 
-    let verifyChannel = interaction.guild.channels.cache.get(WELCOME_CHANNEL_ID);
+    // let verifyChannel = interaction.guild.channels.cache.get(WELCOME_CHANNEL_ID);
     let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
 
-    if (interaction.isCommand()) {
-      if (interaction.commandName == "setup") {
-        if (!interaction.member.permissions.has("MANAGE_ROLES")) {
-          return interaction.reply({
-            content: `You don't have perms to run command`,
-            ephemeral: true,
-          });
-        }
+    // if (interaction.isCommand()) {
+    //   if (interaction.commandName == "setup") {
+    //     if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+    //       return interaction.reply({
+    //         content: `You don't have perms to run command`,
+    //         ephemeral: true,
+    //       });
+    //     }
 
-        if (!verifyChannel || !verifyRole) {
-          return interaction.reply({
-            content: `verifyChannel and verifyRole is not found`,
-            ephemeral: true,
-          });
-        } else {
-          let embed = new MessageEmbed()
-            // .setFooter("Verification Period: 1 minutes")
-            .setColor("WHITE")
-            .setTitle(`Gatekeeper of ${interaction.guild.name}`)
-            .setDescription(`Welcome to ${interaction.guild.name}! To get access to this server verify that you arent a bot by completing the captcha.
+    //     if (!verifyChannel || !verifyRole) {
+    //       return interaction.reply({
+    //         content: `verifyChannel and verifyRole is not found`,
+    //         ephemeral: true,
+    //       });
+    //     } else {
+    //       let embed = new MessageEmbed()
+    //         // .setFooter("Verification Period: 1 minutes")
+    //         .setColor("WHITE")
+    //         .setTitle(`Gatekeeper of ${interaction.guild.name}`)
+    //         .setDescription(`Welcome to ${interaction.guild.name}! To get access to this server verify that you arent a bot by completing the captcha.
 
-            **Click the button below to get started.**`)
+    //         **Click the button below to get started.**`)
 
-          let btnRow = new MessageActionRow().addComponents([
-            new MessageButton()
-              .setCustomId(`verifyBtn`)
-              .setLabel("Verify")
-              .setStyle("SUCCESS"),
-          ]);
+    //       let btnRow = new MessageActionRow().addComponents([
+    //         new MessageButton()
+    //           .setCustomId(`verifyBtn`)
+    //           .setLabel("Verify")
+    //           .setStyle("SUCCESS"),
+    //       ]);
 
-          await verifyChannel.send({
-            embeds: [embed],
-            components: [btnRow],
-          });
+    //       await verifyChannel.send({
+    //         embeds: [embed],
+    //         components: [btnRow],
+    //       });
 
-          interaction.reply({
-            content: `Verification System Setup in ${verifyChannel} and Verify Role is ${verifyRole}`,
-            ephemeral: true,
-          });
-        }
-      } else {
-        interaction.reply({
-          content: `${interaction.commandName} is not valid`,
-          ephemeral: true,
-        });
-      }
-    }
+    //       interaction.reply({
+    //         content: `Verification System Setup in ${verifyChannel} and Verify Role is ${verifyRole}`,
+    //         ephemeral: true,
+    //       });
+    //     }
+    //   } else {
+    //     interaction.reply({
+    //       content: `${interaction.commandName} is not valid`,
+    //       ephemeral: true,
+    //     });
+    //   }
+    // }
 
     if (interaction.isButton()) {
       if (interaction.customId == "verifyBtn") {
