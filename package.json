@@ -10,6 +10,7 @@
   "dependencies": {
     "captcha-canvas": "^3.2.1",
     "discord.js": "^13.7.0",
+    "@discordjs/rest": "^0.4.1",
     "dotenv": "^16.0.1"
   }
 }
