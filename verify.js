@@ -1,112 +1,62 @@
 const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
 const { Captcha } = require("captcha-canvas");
 
-const WELCOME_CHANNEL_ID='1010865563624554597'
-const VERIFIED_ROLE_ID='941311574306586644'
-
 let captcha;
 
 module.exports = async (client) => {
 
   client.on("interactionCreate", async (interaction) => {
-
-    // let verifyChannel = interaction.guild.channels.cache.get(WELCOME_CHANNEL_ID);
-    // let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
-
-    // if (interaction.isCommand()) {
-    //   if (interaction.commandName == "setup") {
-    //     if (!interaction.member.permissions.has("MANAGE_ROLES")) {
-    //       return interaction.reply({
-    //         content: `You don't have perms to run command`,
-    //         ephemeral: true,
-    //       });
-    //     }
-
-    //     if (!verifyChannel || !verifyRole) {
-    //       return interaction.reply({
-    //         content: `verifyChannel and verifyRole is not found`,
-    //         ephemeral: true,
-    //       });
-    //     } else {
-    //       let embed = new MessageEmbed()
-    //         // .setFooter("Verification Period: 1 minutes")
-    //         .setColor("WHITE")
-    //         .setTitle(`Gatekeeper of ${interaction.guild.name}`)
-    //         .setDescription(`Welcome to ${interaction.guild.name}! To get access to this server verify that you arent a bot by completing the captcha.
-
-    //         **Click the button below to get started.**`)
-
-    //       let btnRow = new MessageActionRow().addComponents([
-    //         new MessageButton()
-    //           .setCustomId(`verifyBtn`)
-    //           .setLabel("Verify")
-    //           .setStyle("SUCCESS"),
-    //       ]);
-
-    //       await verifyChannel.send({
-    //         embeds: [embed],
-    //         components: [btnRow],
-    //       });
-
-    //       interaction.reply({
-    //         content: `Verification System Setup in ${verifyChannel} and Verify Role is ${verifyRole}`,
-    //         ephemeral: true,
-    //       });
-    //     }
-    //   } else {
-    //     interaction.reply({
-    //       content: `${interaction.commandName} is not valid`,
-    //       ephemeral: true,
-    //     });
-    //   }
-    // }
-
+    
     if (interaction.isButton()) {
       if (interaction.customId == "verifyBtn") {
         // let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
-        if (!verifyRole) return;
-
-        if (interaction.member.roles.cache.has(verifyRole.id)) {
-          // If the user already has the Verified Role
+        if (!verifyRole) {
           return interaction.reply({
-            content: `You are already verified`,
+            content: `verifyRole is not found`,
             ephemeral: true,
           });
         } else {
-          if (!interaction.guild.me.permissions.has("MANAGE_ROLES")) {
-            // If bot donsn't have permission to Manage Roles
+          if (interaction.member.roles.cache.has(verifyRole.id)) {
+            // If the user already has the Verified Role
             return interaction.reply({
-              content: `I don't have perms`,
+              content: `You are already verified`,
               ephemeral: true,
             });
-          }
+          } else {
+            if (!interaction.guild.me.permissions.has("MANAGE_ROLES")) {
+              // If bot donsn't have permission to Manage Roles
+              return interaction.reply({
+                content: `I don't have perms`,
+                ephemeral: true,
+              });
+            }
 
-          captcha = new Captcha();
-          
-          // creatings captcha
-          captcha.async = true;
-          captcha.addDecoy();
-          captcha.drawTrace();
-          captcha.drawCaptcha();
+            captcha = new Captcha();
 
-          const captchaImage = new MessageAttachment(
-            await captcha.png,
-            "captcha.png"
-          );
+            // creatings captcha
+            captcha.async = true;
+            captcha.addDecoy();
+            captcha.drawTrace();
+            captcha.drawCaptcha();
 
-          let enterBtnRow = new MessageActionRow().addComponents([
-            new MessageButton()
-              .setCustomId(`enter`)
-              .setLabel("Enter")
-              .setStyle("SUCCESS"),
-          ]);
+            const captchaImage = new MessageAttachment(
+              await captcha.png,
+              "captcha.png"
+            );
 
-          await interaction.reply({
-            embeds: [
-              new MessageEmbed()
-                .setColor("WHITE")
-                .setTitle(`Captcha Verification`)
-                .setDescription(`Please send the captcha code here.
+            let enterBtnRow = new MessageActionRow().addComponents([
+              new MessageButton()
+                .setCustomId(`enter`)
+                .setLabel("Enter")
+                .setStyle("SUCCESS"),
+            ]);
+
+            await interaction.reply({
+              embeds: [
+                new MessageEmbed()
+                  .setColor("WHITE")
+                  .setTitle(`Captcha Verification`)
+                  .setDescription(`Please send the captcha code here.
                 Hello! You are required to complete a captcha before entering the server.
                 **NOTE:** **This is Case Sensitive.**
 
@@ -115,13 +65,13 @@ module.exports = async (client) => {
                 targeted attacks using automated user accounts.
 
                 **Your Captcha:**`)
-                .setImage(`attachment://captcha.png`),
-            ],
-            files: [captchaImage],
-            components: [enterBtnRow],
-            ephemeral: true,
-          });
-
+                  .setImage(`attachment://captcha.png`),
+              ],
+              files: [captchaImage],
+              components: [enterBtnRow],
+              ephemeral: true,
+            });
+          }
         }
       }
 
@@ -154,8 +104,7 @@ module.exports = async (client) => {
     if (interaction.isModalSubmit()) {
       if (interaction.customId === 'captcha-modal') {
         const response = interaction.fields.getTextInputValue('captcha-input');
-        // console.log(`Yay, your answer is submitted: "${response}"`);
-        
+
         let isValid = response == captcha.text;
         // If the user enters wrong captcha
         if (isValid) {
@@ -167,7 +116,6 @@ module.exports = async (client) => {
         }
         // If the user enters wrong captcha
         else {
-
           let wrongCaptcha = new MessageEmbed()
             .setColor("#ffffff")
             .setTitle(`💀 You have failed the verification.`)
@@ -175,7 +123,7 @@ module.exports = async (client) => {
           await interaction.user.send({
             embeds: [wrongCaptcha],
           });
-          interaction.member.kick().catch((e) => { });
+          // interaction.member.kick().catch((e) => { });
         }
 
       }

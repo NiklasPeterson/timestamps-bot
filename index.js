@@ -59,10 +59,6 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-client.on("error", (e) => console.error(e));
-client.on("warn", (e) => console.warn(e));
-client.on("debug", (e) => console.info(e));
-
 client.on("ready", async () => {
   console.log(`${client.user.tag} is now online!`);
 		client.user.setActivity('you...', {
@@ -97,5 +93,9 @@ client.on("ready", async () => {
 
   require("./verify")(client);
 });
+
+client.on("error", (e) => console.error(e));
+client.on("warn", (e) => console.warn(e));
+client.on("debug", (e) => console.info(e));
 
 client.login(TOKEN);
