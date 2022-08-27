@@ -26,7 +26,7 @@ module.exports = {
 	async execute(interaction) {
 
 		const verifyChannel = interaction.options.getChannel('destination');
-		const verifyRole = interaction.options.getRole('role');
+		verifyRole = interaction.options.getRole('role');
 
 		if (!interaction.member.permissions.has("MANAGE_ROLES")) {
 			return interaction.reply({
@@ -65,6 +65,8 @@ module.exports = {
 				content: `Verification System Setup in ${verifyChannel} and Verify Role is ${verifyRole}`,
 				ephemeral: true,
 			});
+
+			return verifyRole;
 		}
 
 		// await interaction.reply('Loading...');

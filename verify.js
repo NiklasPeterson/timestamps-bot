@@ -11,7 +11,7 @@ module.exports = async (client) => {
   client.on("interactionCreate", async (interaction) => {
 
     // let verifyChannel = interaction.guild.channels.cache.get(WELCOME_CHANNEL_ID);
-    let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
+    // let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
 
     // if (interaction.isCommand()) {
     //   if (interaction.commandName == "setup") {
@@ -63,7 +63,7 @@ module.exports = async (client) => {
 
     if (interaction.isButton()) {
       if (interaction.customId == "verifyBtn") {
-        let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
+        // let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
         if (!verifyRole) return;
 
         if (interaction.member.roles.cache.has(verifyRole.id)) {
@@ -101,7 +101,7 @@ module.exports = async (client) => {
               .setStyle("SUCCESS"),
           ]);
 
-          let cmsg = await interaction.reply({
+          await interaction.reply({
             embeds: [
               new MessageEmbed()
                 .setColor("WHITE")
@@ -109,11 +109,11 @@ module.exports = async (client) => {
                 .setDescription(`Please send the captcha code here.
                 Hello! You are required to complete a captcha before entering the server.
                 **NOTE:** **This is Case Sensitive.**
-                                            
+
                 **Why?**
                 This is to protect the server against
                 targeted attacks using automated user accounts.
-                                
+
                 **Your Captcha:**`)
                 .setImage(`attachment://captcha.png`),
             ],
@@ -122,40 +122,6 @@ module.exports = async (client) => {
             ephemeral: true,
           });
 
-          // await cmsg.channel
-          //   awaitModalSubmit({
-          //     filter: (m) => m.author.id == interaction.user.id,
-          //     max: 1,
-          //     time: 1000 * 60,
-          //     errors: ["time"],
-          //   })
-
-          //   .then(async (value) => {
-          //     let isValid = value.first().content == captcha.text;
-          //     if (isValid) {
-          //       await interaction.member.roles.add(verifyRole).catch((e) => { });
-          //       interaction.user.send({
-          //         content: `🎉 You have verified! Now you have got access of this server!`,
-          //         ephemeral: true,
-          //       });
-          //     }
-          //     // If the user enters wrong captcha
-          //     else {
-          //       await interaction.user.send({
-          //         content: `💀 You're kicked from ${interaction.guild.name}! Because entered the wrong captcha...`,
-          //         ephemeral: true,
-          //       });
-          //       interaction.member.kick().catch((e) => { });
-          //     }
-          //   })
-          //   // If the timer goes out
-          //   .catch(async (e) => {
-          //     await interaction.user.send({
-          //       content: `💀 You're kicked from ${interaction.guild.name}! Because you didn't manage to completed the captcha in time...`,
-          //       ephemeral: true,
-          //     });
-          //     interaction.member.kick().catch((e) => { });
-          //   });
         }
       }
 
@@ -189,6 +155,7 @@ module.exports = async (client) => {
       if (interaction.customId === 'captcha-modal') {
         const response = interaction.fields.getTextInputValue('captcha-input');
         // console.log(`Yay, your answer is submitted: "${response}"`);
+        
         let isValid = response == captcha.text;
         // If the user enters wrong captcha
         if (isValid) {
@@ -202,12 +169,11 @@ module.exports = async (client) => {
         else {
 
           let wrongCaptcha = new MessageEmbed()
-            .setColor("WHITE")
+            .setColor("#ffffff")
             .setTitle(`💀 You have failed the verification.`)
             .setDescription(`You were kicked from \`${interaction.guild.name}\`, because entered the wrong captcha...`)
           await interaction.user.send({
             embeds: [wrongCaptcha],
-            ephemeral: true,
           });
           interaction.member.kick().catch((e) => { });
         }
@@ -217,21 +183,3 @@ module.exports = async (client) => {
   });
 
 };
-
-
-        // const waiting = await interaction.awaitModalSubmit({
-        //   // Timeout after a minute of not receiving any valid Modals
-        //   max: 1,
-        //   time: 1000 * 60,
-        //   errors: ["time"],
-        //   // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
-        //   filter: i => i.user.id === interaction.user.id,
-        // }).catch(error => {
-        //   // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
-        //   console.error(error)
-        //   await interaction.user.send({
-        //     content: `💀 You're kicked from ${interaction.guild.name}! Because you didn't manage to completed the captcha in time...`,
-        //     ephemeral: true,
-        //   });
-        //   interaction.member.kick().catch((e) => { });
-        // })
