@@ -9,11 +9,12 @@ const {
 } = require('discord.js')
 
 module.exports = {
-	name: "setup",
+	name: "captcha",
 	timeout: 5,
 	data: new SlashCommandBuilder()
-		.setName('setup')
+		.setName('captcha')
 		.setDescription('Setup a captcha verification system')
+		.setDefaultMemberPermissions(0)
 		.addChannelOption(option => option
 			.setName('destination')
 			.setDescription('Select which channel to send the captcha to')
@@ -28,12 +29,12 @@ module.exports = {
 		const verifyChannel = interaction.options.getChannel('destination');
 		verifyRole = interaction.options.getRole('role');
 
-		if (!interaction.member.permissions.has("MANAGE_ROLES")) {
-			return interaction.reply({
-				content: `You don't have perms to run command`,
-				ephemeral: true,
-			});
-		}
+		// if (!interaction.member.permissions.has("MANAGE_ROLES")) {
+		// 	return interaction.reply({
+		// 		content: `You don't have perms to run command`,
+		// 		ephemeral: true,
+		// 	});
+		// }
 
 		if (!verifyChannel || !verifyRole) {
 			return interaction.reply({
@@ -43,9 +44,9 @@ module.exports = {
 		} else {
 			let embed = new MessageEmbed()
 				// .setFooter("Verification Period: 1 minutes")
-				.setColor("WHITE")
+				.setColor("#ffffff")
 				.setTitle(`Gatekeeper of ${interaction.guild.name}`)
-				.setDescription(`Welcome to ${interaction.guild.name}! To get access to this server verify that you arent a bot by completing the captcha.
+				.setDescription(`Welcome to ${interaction.guild.name}! To get access to this server you need to verify that you aren't a bot by completing the captcha.
 
 			  **Click the button below to get started.**`)
 
@@ -62,15 +63,11 @@ module.exports = {
 			});
 
 			interaction.reply({
-				content: `Verification System Setup in ${verifyChannel} and Verify Role is ${verifyRole}`,
+				content: `Verification system setup in ${verifyChannel}, users will get the ${verifyRole} role after completing the captcha.`,
 				ephemeral: true,
 			});
 
-			return verifyRole;
+			// return verifyRole;
 		}
-
-		// await interaction.reply('Loading...');
-		// await interaction.deleteReply();
-
 	}
 }
