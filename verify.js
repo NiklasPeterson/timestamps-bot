@@ -1,7 +1,7 @@
 const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
 const { Captcha } = require("captcha-canvas");
 
-const WELCOME_CHANNEL_ID='1010865563624554597'
+const WELCOME_CHANNEL_ID='940694894207447070'
 const VERIFIED_ROLE_ID='941311574306586644'
 
 let captcha;
@@ -193,23 +193,26 @@ module.exports = async (client) => {
         // If the user enters wrong captcha
         if (isValid) {
           await interaction.member.roles.add(verifyRole).catch((e) => { });
+          let CorrectCaptcha = new MessageEmbed()
+            .setColor("WHITE")
+            .setTitle(`🎉 You successfully verified yourself!`)
+            .setDescription(`You now have access to this server!`)
           interaction.reply({
-            content: `🎉 You have verified! Now you have got access of this server!`,
+            content: [CorrectCaptcha],
             ephemeral: true,
           });
         }
         // If the user enters wrong captcha
         else {
-
           let wrongCaptcha = new MessageEmbed()
             .setColor("WHITE")
             .setTitle(`💀 You have failed the verification.`)
-            .setDescription(`You were kicked from \`${interaction.guild.name}\`, because entered the wrong captcha...`)
-          await interaction.user.send({
+            .setDescription(`You entered the the wrong captcha... Please try again.`)
+          interaction.reply({
             embeds: [wrongCaptcha],
             ephemeral: true,
           });
-          interaction.member.kick().catch((e) => { });
+          // interaction.member.kick().catch((e) => { });
         }
 
       }
