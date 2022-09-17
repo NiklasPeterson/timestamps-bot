@@ -180,43 +180,92 @@ module.exports = async (client) => {
                 .setRequired(true),
             ),
           ]);
-        // Show the modal to the user
-        await interaction.showModal(modal);
+        
+        // Show the Modal to the User in response to the Interaction
+        await interaction.showModal(modal)
+        
+        // Get the Modal Submit Interaction that is emitted once the User submits the Modal
+        const submitted = await interaction.awaitModalSubmit({
+          // Timeout after a minute of not receiving any valid Modals
+          time: 60000,
+          // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
+          filter: i => i.user.id === interaction.user.id,
+        }).catch(error => {
+          // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
+          console.error(error)
+          return null
+        })
+        
+        // If we got our Modal, we can do whatever we want with it down here. Remember that the Modal
+        // can have multiple Action Rows, but each Action Row can have only one TextInputComponent. You
+        // can use the ModalSubmitInteraction.fields helper property to get the value of an input field
+        // from it's Custom ID. See https://discord.js.org/#/docs/discord.js/stable/class/ModalSubmitFieldsResolver for more info.
+        if (submitted) {
+          // const [ age, name ] = Object.keys(fields).map(key => submitted.fields.getTextInputValue(fields[key].customId))
+          const response = submitted.fields.getTextInputValue('captcha-input');
+          
+          let isValid = response == captcha.text;
+          let captchaMessage = new MessageEmbed()
+          // If the user enters correct captcha
+
+          if (isValid) {
+              captchaMessage = new MessageEmbed()
+                .setColor("WHITE")
+                .setTitle(`🎉 You successfully verified yourself!`)
+                .setDescription(`You now have access to this server!`)
+              await interaction.member.roles.add(verifyRole).catch((e) => { });
+            }
+            // If the user enters wrong captcha
+            else {
+              captchaMessage = new MessageEmbed()
+                .setColor("WHITE")
+                .setTitle(`💀 You have failed the verification.`)
+                .setDescription(`You entered the the wrong captcha... Please try again.`)
+              // interaction.member.kick().catch((e) => { });
+            }
+
+          await submitted.reply({
+            content: `You submitted: ${response} and its ${isValid} ${captcha.text}`,
+            embeds: [captchaMessage],
+            ephemeral: true
+          })
+        }
+
       }
     }
 
-    if (interaction.isModalSubmit()) {
-      if (interaction.customId === 'captcha-modal') {
-        const response = interaction.fields.getTextInputValue('captcha-input');
-        // console.log(`Yay, your answer is submitted: "${response}"`);
-        let isValid = response == captcha.text;
-        // If the user enters wrong captcha
-        if (isValid) {
-          await interaction.member.roles.add(verifyRole).catch((e) => { });
-          let CorrectCaptcha = new MessageEmbed()
-            .setColor("WHITE")
-            .setTitle(`🎉 You successfully verified yourself!`)
-            .setDescription(`You now have access to this server!`)
-          interaction.reply({
-            content: [CorrectCaptcha],
-            ephemeral: true,
-          });
-        }
-        // If the user enters wrong captcha
-        else {
-          let wrongCaptcha = new MessageEmbed()
-            .setColor("WHITE")
-            .setTitle(`💀 You have failed the verification.`)
-            .setDescription(`You entered the the wrong captcha... Please try again.`)
-          interaction.reply({
-            embeds: [wrongCaptcha],
-            ephemeral: true,
-          });
-          // interaction.member.kick().catch((e) => { });
-        }
+    //     if (interaction.isModalSubmit()) {
+    //       if (interaction.customId === 'captcha-modal') {
+    //         const response = interaction.fields.getTextInputValue('captcha-input');
+    //         // console.log(`Yay, your answer is submitted: "${response}"`);
+    //         let isValid = response == captcha.text;
+    //         // If the user enters wrong captcha
+    //         if (isValid) {
+    //           await interaction.member.roles.add(verifyRole).catch((e) => { });
+    //           let CorrectCaptcha = new MessageEmbed()
+    //             .setColor("WHITE")
+    //             .setTitle(`🎉 You successfully verified yourself!`)
+    //             .setDescription(`You now have access to this server!`)
+    //           interaction.reply({
+    //             content: [CorrectCaptcha],
+    //             ephemeral: true,
+    //           });
+    //         }
+    //         // If the user enters wrong captcha
+    //         else {
+    //           let wrongCaptcha = new MessageEmbed()
+    //             .setColor("WHITE")
+    //             .setTitle(`💀 You have failed the verification.`)
+    //             .setDescription(`You entered the the wrong captcha... Please try again.`)
+    //           interaction.reply({
+    //             embeds: [wrongCaptcha],
+    //             ephemeral: true,
+    //           });
+    //           // interaction.member.kick().catch((e) => { });
+    //         }
 
-      }
-    }
+    //   }
+    // }
   });
 
 };
