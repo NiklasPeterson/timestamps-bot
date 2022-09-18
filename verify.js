@@ -1,7 +1,6 @@
 const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
 const { Captcha } = require("captcha-canvas");
 
-
 module.exports = async (client) => {
 
   client.on("interactionCreate", async (interaction) => {
@@ -158,7 +157,8 @@ module.exports = async (client) => {
                 .setRequired(true),
             ),
           ]);
-        // Show the modal to the user
+
+        // Show the Modal to the User in response to the Interaction
         await interaction.showModal(modal);
       }
     }
