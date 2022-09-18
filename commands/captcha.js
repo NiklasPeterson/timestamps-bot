@@ -18,16 +18,16 @@ module.exports = {
 		.addChannelOption(option => option
 			.setName('destination')
 			.setDescription('Select which channel to send the captcha to')
-			.setRequired(true))
-		.addRoleOption(option => option
-			.setName('role')
-			.setDescription('Select a which role should be added upon completing the captcha')
 			.setRequired(true)),
+		// .addRoleOption(option => option
+		// 	.setName('role')
+		// 	.setDescription('Select a which role should be added upon completing the captcha')
+		// 	.setRequired(true)),
 
 	async execute(interaction) {
 
 		const verifyChannel = interaction.options.getChannel('destination');
-		verifyRole = interaction.options.getRole('role');
+		// verifyRole = interaction.options.getRole('role');
 
 		// if (!interaction.member.permissions.has("MANAGE_ROLES")) {
 		// 	return interaction.reply({
@@ -36,9 +36,10 @@ module.exports = {
 		// 	});
 		// }
 
-		if (!verifyChannel || !verifyRole) {
+		// if (!verifyChannel || !verifyRole) {
+		if (!verifyChannel) {
 			return interaction.reply({
-				content: `verifyChannel and verifyRole is not found`,
+				content: `verifyChannel is not found`,
 				ephemeral: true,
 			});
 		} else {
@@ -63,11 +64,10 @@ module.exports = {
 			});
 
 			interaction.reply({
-				content: `Verification system setup in ${verifyChannel}, users will get the ${verifyRole} role after completing the captcha.`,
+				// content: `Verification system setup in ${verifyChannel}, users will get the ${verifyRole} role after completing the captcha.`,
+				content: `Verification system setup in ${verifyChannel}.`,
 				ephemeral: true,
 			});
-
-			// return verifyRole;
 		}
 	}
 }

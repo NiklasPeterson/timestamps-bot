@@ -6,7 +6,7 @@ module.exports = async (client) => {
 
   client.on("interactionCreate", async (interaction) => {
 
-    // let verifyRole = interaction.guild.roles.cache.get("995436042545004645");
+    let verifyRole = interaction.guild.roles.cache.get("941311574306586644");
 
     if (interaction.isButton()) {
       if (interaction.customId == "verifyBtn") {
