@@ -7,6 +7,11 @@ module.exports = async (client) => {
 
     let verifyRole = interaction.guild.roles.cache.get("941311574306586644");
 
+    // define roles needed for interaction
+    const allowlistRole = interaction.guild.roles.cache.get("1005588924061712445")
+    const alphaRole = interaction.guild.roles.cache.get("1005588833850638356")
+    const securityRole = interaction.guild.roles.cache.get("1006973161683816558")
+
     if (interaction.isButton()) {
       if (interaction.customId == "verifyBtn") {
         // let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
@@ -152,7 +157,7 @@ module.exports = async (client) => {
                 .setCustomId('captcha-input')
                 .setLabel('Enter Captcha')
                 .setStyle('SHORT')
-                .setMinLength(5)
+                .setMinLength(6)
                 .setPlaceholder('ABCDEF')
                 .setRequired(true),
             ),
@@ -161,6 +166,74 @@ module.exports = async (client) => {
         // Show the Modal to the User in response to the Interaction
         await interaction.showModal(modal);
       }
+
+      if (interaction.customId == 'allowlistBtn') {
+        if (interaction.member.roles.cache.has(allowlistRole.id)) {
+          await interaction.member.roles.remove(allowlistRole).catch((e) => { });
+          return interaction.reply({
+            content: `Removed Allowlist Alert role`,
+            embeds: [
+              new MessageEmbed()
+                .setColor("WHITE")
+                .setDescription(`Removed <@&` + allowlistRole + `>`)],
+            ephemeral: true,
+          });
+        } else {
+              await interaction.member.roles.add(allowlistRole).catch((e) => { });
+              return interaction.reply({
+                embeds: [
+                  new MessageEmbed()
+                    .setColor("WHITE")
+                    .setDescription(`Added <@&` + allowlistRole + `>`)],
+                  ephemeral: true,
+              })
+          }
+      }
+
+      if (interaction.customId == 'alphaBtn') {
+        if (interaction.member.roles.cache.has(alphaRole.id)) {
+          await interaction.member.roles.remove(alphaRole).catch((e) => { });
+          return interaction.reply({
+            embeds: [
+              new MessageEmbed()
+                .setColor("WHITE")
+                .setDescription(`Removed <@&` + alphaRole + `>`)],
+            ephemeral: true,
+          });
+        } else {
+              await interaction.member.roles.add(alphaRole).catch((e) => { });
+              return interaction.reply({
+                embeds: [
+                  new MessageEmbed()
+                    .setColor("WHITE")
+                    .setDescription(`Added <@&` + alphaRole + `>`)],
+                  ephemeral: true,
+              })
+          }
+      }
+
+      if (interaction.customId == 'securityBtn') {
+        if (interaction.member.roles.cache.has(securityRole.id)) {
+          await interaction.member.roles.remove(securityRole).catch((e) => { });
+          return interaction.reply({
+            embeds: [
+              new MessageEmbed()
+                .setColor("WHITE")
+                .setDescription(`Removed <@&` + securityRole + `>`)],
+            ephemeral: true,
+          });
+        } else {
+              await interaction.member.roles.add(securityRole).catch((e) => { });
+              return interaction.reply({
+                  embeds: [
+                    new MessageEmbed()
+                      .setColor("WHITE")
+                      .setDescription(`Added <@&` + securityRole + `>`)],
+                  ephemeral: true,
+              })
+          }
+      }
+
     }
 
   });
