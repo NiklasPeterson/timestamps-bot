@@ -14,7 +14,7 @@ const CLIENT_ID = process.env.CLIENT_ID
 const GUILD_ID = process.env.GUILD_ID
 
 const client = new Client({
-  intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
+  intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES"],
 });
 
 // Fetching all files in events folder
