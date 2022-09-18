@@ -132,7 +132,7 @@ module.exports = async (client) => {
                     .setDescription(`You took too long to complete the captcha... Please try again.`)
                 ],
                 files: [],
-                components: [enterBtnRow],
+                components: [],
                 ephemeral: true
               })
             }
