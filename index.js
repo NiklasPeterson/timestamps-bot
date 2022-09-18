@@ -7,7 +7,7 @@ const TOKEN = process.env.TOKEN
 const GUILD_ID = process.env.GUILD_ID
 
 const client = new Client({
-  intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
+  intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES"],
 });
 
 client.on("ready", async () => {
