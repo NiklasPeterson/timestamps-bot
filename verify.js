@@ -1,8 +1,8 @@
 const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
 const { Captcha } = require("captcha-canvas");
 
-const WELCOME_CHANNEL_ID='940694894207447070'
-const VERIFIED_ROLE_ID='941311574306586644'
+const WELCOME_CHANNEL_ID = '940694894207447070'
+const VERIFIED_ROLE_ID = '941311574306586644'
 
 module.exports = async (client) => {
 
@@ -113,7 +113,8 @@ module.exports = async (client) => {
                 targeted attacks using automated user accounts.
                                 
                 **Your Captcha:**`)
-                .setImage(`attachment://captcha.png`),
+                .setImage(`attachment://captcha.png`)
+                .setFooter({ text: 'You have 60 seconds to enter the captcha'}),
             ],
             files: [captchaImage],
             components: [enterBtnRow],
@@ -121,27 +122,27 @@ module.exports = async (client) => {
           });
 
           // Get the Modal Submit Interaction that is emitted once the User submits the Modal
-        const submitted = await interaction.awaitModalSubmit({
-          // Timeout after a minute of not receiving any valid Modals
-          time: 60000,
-          // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
-          filter: i => i.user.id === interaction.user.id,
-        }).catch(error => {
-          // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
-          console.error(error)
-          return null
-        })
-        
-        // If we got our Modal, we can do whatever we want with it down here.
-        if (submitted) {
-          // const [ age, name ] = Object.keys(fields).map(key => submitted.fields.getTextInputValue(fields[key].customId))
-          const response = submitted.fields.getTextInputValue('captcha-input');
-          
-          let isValid = response == captcha.text;
-          let captchaMessage = new MessageEmbed()
-          // If the user enters correct captcha
+          const submitted = await interaction.awaitModalSubmit({
+            // Timeout after a minute of not receiving any valid Modals
+            time: 60000,
+            // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
+            filter: i => i.user.id === interaction.user.id,
+          }).catch(error => {
+            // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
+            console.error(error)
+            return null
+          })
 
-          if (isValid) {
+          // If we got our Modal, we can do whatever we want with it down here.
+          if (submitted) {
+            // const [ age, name ] = Object.keys(fields).map(key => submitted.fields.getTextInputValue(fields[key].customId))
+            const response = submitted.fields.getTextInputValue('captcha-input');
+
+            let isValid = response == captcha.text;
+            let captchaMessage = new MessageEmbed()
+            // If the user enters correct captcha
+
+            if (isValid) {
               captchaMessage = new MessageEmbed()
                 .setColor("WHITE")
                 .setTitle(`🎉 You successfully verified yourself!`)
@@ -152,17 +153,37 @@ module.exports = async (client) => {
             else {
               captchaMessage = new MessageEmbed()
                 .setColor("WHITE")
-                .setTitle(`💀 You have failed the verification.`)
+                .setTitle(`💀 You've failed the verification.`)
                 .setDescription(`You entered the the wrong captcha... Please try again.`)
               // interaction.member.kick().catch((e) => { });
             }
+            
+            interaction.editReply({
+              content: `Anwser collected.`,
+              embeds: [],
+              files: [],
+              components: [],
+              ephemeral: true
+            })
 
-          await submitted.reply({
-            content: `You submitted: ${response} and its ${isValid} ${captcha.text}`,
-            embeds: [captchaMessage],
-            ephemeral: true
-          })
-        }
+            submitted.reply({
+              embeds: [captchaMessage],
+              ephemeral: true
+            })
+
+          } else {
+            interaction.editReply({
+              embeds: [
+                new MessageEmbed()
+                  .setColor("WHITE")
+                  .setTitle(`⏱ You've failed the verification.`)
+                  .setDescription(`You took too long to complete the captcha... Please try again.`)
+              ],
+              files: [],
+              components: [enterBtnRow],
+              ephemeral: true
+            })
+          }
         }
       }
 
@@ -171,23 +192,18 @@ module.exports = async (client) => {
         const modal = new Modal()
           .setCustomId('captcha-modal')
           .setTitle('Verify yourself')
-          // Add components to modal
           .addComponents([
             new MessageActionRow().addComponents(
-              // Create the text input components
               new TextInputComponent()
-                // ID is what we use to target our input
                 .setCustomId('captcha-input')
-                // The label is the prompt the user sees for this input
                 .setLabel('Enter Captcha')
-                // Short means only a single line of text
                 .setStyle('SHORT')
                 .setMinLength(5)
                 .setPlaceholder('ABCDEF')
                 .setRequired(true),
             ),
           ]);
-        
+
         // Show the Modal to the User in response to the Interaction
         await interaction.showModal(modal)
 
