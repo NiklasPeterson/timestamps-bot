@@ -2,9 +2,9 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('beep')
-		.setDescription('Replies with Boop!'),
+		.setName('ping')
+		.setDescription('Replies with Pong!'),
 	async execute(interaction) {
-		await interaction.reply('Boop!');
+		await interaction.reply('Pong!');
 	},
 };

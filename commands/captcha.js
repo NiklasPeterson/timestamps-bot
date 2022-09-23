@@ -1,11 +1,9 @@
-const {
-	SlashCommandBuilder
-} = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const {
-	MessageActionRow,
-	MessageButton,
-	MessageEmbed
+	ActionRowBuilder,
+	ButtonBuilder,
+	EmbedBuilder
 } = require('discord.js')
 
 module.exports = {
@@ -43,7 +41,7 @@ module.exports = {
 				ephemeral: true,
 			});
 		} else {
-			let embed = new MessageEmbed()
+			let embed = new EmbedBuilder()
 				// .setFooter("Verification Period: 1 minutes")
 				.setColor("#ffffff")
 				.setTitle(`Gatekeeper of ${interaction.guild.name}`)
@@ -51,11 +49,11 @@ module.exports = {
 
 			  **Click the button below to get started.**`)
 
-			let btnRow = new MessageActionRow().addComponents([
-				new MessageButton()
+			let btnRow = new ActionRowBuilder().addComponents([
+				new ButtonBuilder()
 					.setCustomId(`verifyBtn`)
 					.setLabel("Verify")
-					.setStyle("SUCCESS"),
+					.setStyle("Success"),
 			]);
 
 			await verifyChannel.send({
