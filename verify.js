@@ -1,41 +1,46 @@
-const { MessageEmbed, MessageButton, MessageActionRow, MessageAttachment, Modal, TextInputComponent, } = require("discord.js");
-const { Captcha } = require("captcha-canvas");
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, AttachmentBuilder, ModalBuilder, TextInputBuilder } = require('discord.js');
+const { Captcha } = require('captcha-canvas');
 
 module.exports = async (client) => {
 
-  client.on("interactionCreate", async (interaction) => {
+  client.on('interactionCreate', async (interaction) => {
 
-    let verifyRole = interaction.guild.roles.cache.get("941311574306586644");
+    let verifyRole = interaction.guild.roles.cache.get('941311574306586644');
 
     // define roles needed for interaction
-    const allowlistRole = interaction.guild.roles.cache.get("1005588924061712445")
-    const alphaRole = interaction.guild.roles.cache.get("1005588833850638356")
-    const securityRole = interaction.guild.roles.cache.get("1006973161683816558")
+    const allowlistRole = interaction.guild.roles.cache.get('1005588924061712445')
+    const alphaRole = interaction.guild.roles.cache.get('1005588833850638356')
+    const securityRole = interaction.guild.roles.cache.get('1006973161683816558')
+    const scamRole = interaction.guild.roles.cache.get('1022877110584492095')
 
     if (interaction.isButton()) {
-      if (interaction.customId == "verifyBtn") {
+      if (interaction.customId == 'verifyBtn') {
         // let verifyRole = interaction.guild.roles.cache.get(VERIFIED_ROLE_ID);
         if (!verifyRole) {
           return interaction.reply({
-            content: `verifyRole is not found`,
+            content: 'verifyRole is not found',
             ephemeral: true,
           });
         } else {
           if (interaction.member.roles.cache.has(verifyRole.id)) {
             // If the user already has the Verified Role
             return interaction.reply({
-              content: `You are already verified`,
+              embeds: [
+                new EmbedBuilder()
+                  .setColor('#ffffff')
+                  .setTitle(`😎 You're already verified!`)
+              ],
               ephemeral: true,
             });
           } else {
-            if (!interaction.guild.me.permissions.has("MANAGE_ROLES")) {
-              // If bot donsn't have permission to Manage Roles
-              return interaction.reply({
-                content: `I don't have perms`,
-                ephemeral: true,
-              });
-            }
-            
+            // if (!interaction.guild.me.permissions.has('MANAGE_ROLES')) {
+            //   // If bot donsn't have permission to Manage Roles
+            //   return interaction.reply({
+            //     content: 'I don't have perms',
+            //     ephemeral: true,
+            //   });
+            // }
+
             const captcha = new Captcha();
 
             // creatings captcha
@@ -44,23 +49,20 @@ module.exports = async (client) => {
             captcha.drawTrace();
             captcha.drawCaptcha();
 
-            const captchaImage = new MessageAttachment(
-              await captcha.png,
-              "captcha.png"
-            );
+            const captchaImage = new AttachmentBuilder(await captcha.png, { name: 'captcha.png' });
 
-            let enterBtnRow = new MessageActionRow().addComponents([
-              new MessageButton()
-                .setCustomId(`enter`)
-                .setLabel("Enter")
-                .setStyle("SUCCESS"),
+            let enterBtnRow = new ActionRowBuilder().addComponents([
+              new ButtonBuilder()
+                .setCustomId('openModal')
+                .setLabel('Enter')
+                .setStyle('Success'),
             ]);
 
             await interaction.reply({
               embeds: [
-                new MessageEmbed()
-                  .setColor("WHITE")
-                  .setTitle(`Captcha Verification`)
+                new EmbedBuilder()
+                  .setColor('#ffffff')
+                  .setTitle('Captcha Verification')
                   .setDescription(`Please send the captcha code here.
                 Hello! You are required to complete a captcha before entering the server.
                 **NOTE:** **This is Case Sensitive.**
@@ -70,7 +72,7 @@ module.exports = async (client) => {
                 targeted attacks using automated user accounts.
 
                 **Your Captcha:**`)
-                  .setImage(`attachment://captcha.png`)
+                  .setImage('attachment://captcha.png')
                   .setFooter({ text: 'You have 60 seconds to enter the captcha' }),
               ],
               files: [captchaImage],
@@ -86,7 +88,7 @@ module.exports = async (client) => {
               filter: i => i.user.id === interaction.user.id,
             }).catch(error => {
               // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
-              console.error(error)
+              // console.error(error)
               return null
             })
 
@@ -96,27 +98,27 @@ module.exports = async (client) => {
               const response = submitted.fields.getTextInputValue('captcha-input');
 
               let isValid = response == captcha.text;
-              let captchaMessage = new MessageEmbed()
+              let captchaMessage = new EmbedBuilder()
               // If the user enters correct captcha
 
               if (isValid) {
-                captchaMessage = new MessageEmbed()
-                  .setColor("WHITE")
-                  .setTitle(`🎉 You successfully verified yourself!`)
-                  .setDescription(`You now have access to this server!`)
+                captchaMessage = new EmbedBuilder()
+                  .setColor('#ffffff')
+                  .setTitle('🎉 You Successfully verified yourself!')
+                  .setDescription('You now have access to this server!')
                 await interaction.member.roles.add(verifyRole).catch((e) => { });
               }
               // If the user enters wrong captcha
               else {
-                captchaMessage = new MessageEmbed()
-                  .setColor("WHITE")
+                captchaMessage = new EmbedBuilder()
+                  .setColor('#ffffff')
                   .setTitle(`💀 You've failed the verification.`)
-                  .setDescription(`You entered the the wrong captcha... Please try again.`)
+                  .setDescription('You entered the the wrong captcha... Please try again.')
                 // interaction.member.kick().catch((e) => { });
               }
 
               interaction.editReply({
-                content: `Anwser collected.`,
+                content: 'Anwser collected.',
                 embeds: [],
                 files: [],
                 components: [],
@@ -131,10 +133,10 @@ module.exports = async (client) => {
             } else {
               interaction.editReply({
                 embeds: [
-                  new MessageEmbed()
-                    .setColor("WHITE")
+                  new EmbedBuilder()
+                    .setColor('#ffffff')
                     .setTitle(`⏱ You've failed the verification.`)
-                    .setDescription(`You took too long to complete the captcha... Please try again.`)
+                    .setDescription('You took too long to complete the captcha... Please try again.')
                 ],
                 files: [],
                 components: [],
@@ -146,17 +148,17 @@ module.exports = async (client) => {
         }
       }
 
-      if (interaction.customId === 'enter') {
+      if (interaction.customId === 'openModal') {
         // Create the modal
-        const modal = new Modal()
+        const modal = new ModalBuilder()
           .setCustomId('captcha-modal')
           .setTitle('Verify yourself')
           .addComponents([
-            new MessageActionRow().addComponents(
-              new TextInputComponent()
+            new ActionRowBuilder().addComponents(
+              new TextInputBuilder()
                 .setCustomId('captcha-input')
                 .setLabel('Enter Captcha')
-                .setStyle('SHORT')
+                .setStyle('Short')
                 .setMinLength(6)
                 .setPlaceholder('ABCDEF')
                 .setRequired(true),
@@ -171,23 +173,23 @@ module.exports = async (client) => {
         if (interaction.member.roles.cache.has(allowlistRole.id)) {
           await interaction.member.roles.remove(allowlistRole).catch((e) => { });
           return interaction.reply({
-            content: `Removed Allowlist Alert role`,
+            content: 'Removed Allowlist Alert role',
             embeds: [
-              new MessageEmbed()
-                .setColor("WHITE")
+              new EmbedBuilder()
+                .setColor('#ffffff')
                 .setDescription(`Removed <@&` + allowlistRole + `>`)],
             ephemeral: true,
           });
         } else {
-              await interaction.member.roles.add(allowlistRole).catch((e) => { });
-              return interaction.reply({
-                embeds: [
-                  new MessageEmbed()
-                    .setColor("WHITE")
-                    .setDescription(`Added <@&` + allowlistRole + `>`)],
-                  ephemeral: true,
-              })
-          }
+          await interaction.member.roles.add(allowlistRole).catch((e) => { });
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setColor('#ffffff')
+                .setDescription(`Added <@&` + allowlistRole + `>`)],
+            ephemeral: true,
+          })
+        }
       }
 
       if (interaction.customId == 'alphaBtn') {
@@ -195,21 +197,21 @@ module.exports = async (client) => {
           await interaction.member.roles.remove(alphaRole).catch((e) => { });
           return interaction.reply({
             embeds: [
-              new MessageEmbed()
-                .setColor("WHITE")
+              new EmbedBuilder()
+                .setColor('#ffffff')
                 .setDescription(`Removed <@&` + alphaRole + `>`)],
             ephemeral: true,
           });
         } else {
-              await interaction.member.roles.add(alphaRole).catch((e) => { });
-              return interaction.reply({
-                embeds: [
-                  new MessageEmbed()
-                    .setColor("WHITE")
-                    .setDescription(`Added <@&` + alphaRole + `>`)],
-                  ephemeral: true,
-              })
-          }
+          await interaction.member.roles.add(alphaRole).catch((e) => { });
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setColor('#ffffff')
+                .setDescription(`Added <@&` + alphaRole + `>`)],
+            ephemeral: true,
+          })
+        }
       }
 
       if (interaction.customId == 'securityBtn') {
@@ -217,21 +219,43 @@ module.exports = async (client) => {
           await interaction.member.roles.remove(securityRole).catch((e) => { });
           return interaction.reply({
             embeds: [
-              new MessageEmbed()
-                .setColor("WHITE")
+              new EmbedBuilder()
+                .setColor('#ffffff')
                 .setDescription(`Removed <@&` + securityRole + `>`)],
             ephemeral: true,
           });
         } else {
-              await interaction.member.roles.add(securityRole).catch((e) => { });
-              return interaction.reply({
-                  embeds: [
-                    new MessageEmbed()
-                      .setColor("WHITE")
-                      .setDescription(`Added <@&` + securityRole + `>`)],
-                  ephemeral: true,
-              })
-          }
+          await interaction.member.roles.add(securityRole).catch((e) => { });
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setColor('#ffffff')
+                .setDescription(`Added <@&` + securityRole + `>`)],
+            ephemeral: true,
+          })
+        }
+      }
+
+      if (interaction.customId == 'scamBtn') {
+        if (interaction.member.roles.cache.has(scamRole.id)) {
+          await interaction.member.roles.remove(scamRole).catch((e) => { });
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setColor('#ffffff')
+                .setDescription(`Removed <@&` + scamRole + `>`)],
+            ephemeral: true,
+          });
+        } else {
+          await interaction.member.roles.add(scamRole).catch((e) => { });
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setColor('#ffffff')
+                .setDescription(`Added <@&` + scamRole + `>`)],
+            ephemeral: true,
+          })
+        }
       }
 
     }

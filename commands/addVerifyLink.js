@@ -1,11 +1,9 @@
-const {
-    SlashCommandBuilder
-} = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const {
-    MessageActionRow,
-    MessageButton,
-    MessageEmbed
+    ActionRowBuilder,
+    ButtonBuilder,
+    EmbedBuilder
 } = require('discord.js')
 
 
@@ -28,15 +26,15 @@ module.exports = {
         const string = interaction.options.getString('url');
         const member = interaction.member;
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setLabel('Verify')
-                    .setStyle('LINK')
+                    .setStyle('Link')
                     .setURL(string),
             )
 
-        const embeded = new MessageEmbed()
+        const embeded = new EmbedBuilder()
             .setColor('#ffffff')
             .setTitle('Verify your assets')
             .setDescription('Press the button below to verify your assets!')
