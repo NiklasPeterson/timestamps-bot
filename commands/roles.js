@@ -7,8 +7,6 @@ const {
 } = require('discord.js')
 
 module.exports = {
-	name: 'roles',
-	timeout: 5,
 	data: new SlashCommandBuilder()
 		.setName('roles')
 		.setDescription('Configures Claim Roles in specified channel.')
