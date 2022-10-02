@@ -28,7 +28,7 @@ module.exports = async (client) => {
               embeds: [
                 new EmbedBuilder()
                   .setColor('#ffffff')
-                  .setTitle(`😎 You're already verified!`)
+                  .setTitle(`You're already verified!`)
               ],
               ephemeral: true,
             });
@@ -63,17 +63,12 @@ module.exports = async (client) => {
                 new EmbedBuilder()
                   .setColor('#ffffff')
                   .setTitle('Captcha Verification')
-                  .setDescription(`Please send the captcha code here.
-                Hello! You are required to complete a captcha before entering the server.
-                **NOTE:** **This is Case Sensitive.**
+                  .setDescription(`Please press the **Enter** button below and enter the captcha code.
 
-                **Why?**
-                This is to protect the server against
-                targeted attacks using automated user accounts.
-
-                **Your Captcha:**`)
+**PS. The captcha is Case Sensitive.**`)
                   .setImage('attachment://captcha.png')
-                  .setFooter({ text: 'You have 60 seconds to enter the captcha' }),
+                  .setFooter({ text: 'You have 60 seconds to complete the captcha' }),
+                  
               ],
               files: [captchaImage],
               components: [enterBtnRow],

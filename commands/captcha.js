@@ -7,8 +7,6 @@ const {
 } = require('discord.js')
 
 module.exports = {
-	name: "captcha",
-	timeout: 5,
 	data: new SlashCommandBuilder()
 		.setName('captcha')
 		.setDescription('Setup a captcha verification system')
@@ -42,12 +40,11 @@ module.exports = {
 			});
 		} else {
 			let embed = new EmbedBuilder()
-				// .setFooter("Verification Period: 1 minutes")
 				.setColor("#ffffff")
-				.setTitle(`Gatekeeper of ${interaction.guild.name}`)
-				.setDescription(`Welcome to ${interaction.guild.name}! To get access to this server you need to verify that you aren't a bot by completing the captcha.
-
-			  **Click the button below to get started.**`)
+				.setTitle(`Welcome to ${interaction.guild.name}`)
+				.setDescription(`To get access to this server you'll need to verify that you are a human by completing the captcha
+				
+Press the **Verify** button below to get started.`)
 
 			let btnRow = new ActionRowBuilder().addComponents([
 				new ButtonBuilder()
