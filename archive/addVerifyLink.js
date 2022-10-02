@@ -8,8 +8,6 @@ const {
 
 
 module.exports = {
-    name: "verify",
-    timeout: 5,
     data: new SlashCommandBuilder()
         .setName('verify')
         .setDescription('Sends a verify Link in this channel.')
