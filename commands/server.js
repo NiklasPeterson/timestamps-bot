@@ -1,27 +1,28 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('server')
-		.setDescription(`Shows server info`),
+		.setDescription('Provides information about the server.'),
 	async execute(interaction) {
+		// interaction.guild is the object representing the Guild in which the command was run
 
-		let embed = new EmbedBuilder()
-				.setColor('#ffffff')
-				.setTitle('Server Status:')
-				.setDescription(`
-**Name:** ${interaction.guild.name}
-**Description:** ${interaction.guild.description}
-**ID:** ${interaction.guild.id}
-**Owner:** <@${interaction.guild.ownerId}>
-**Created at:** <t:${interaction.guild.createdTimestamp}:F>
-**Total members:** ${interaction.guild.memberCount}
-`)
+		const serverEmbed = new EmbedBuilder()
+			.setColor('#ffffff')
+			.setTitle('Server Status:')
+			.addFields(
+				{ name: '**Name:**', value: `${interaction.guild.name}`, inline: false },
+				{ name: '**Description:**', value: `${interaction.guild.description}`, inline: false },
+				{ name: '**ID:**', value: `${interaction.guild.id}`, inline: false },
+				{ name: '**Owner:**', value: `<@${interaction.guild.ownerId}>`, inline: false },
+				{ name: '**Created at:**', value: `<t:${interaction.guild.createdTimestamp}:F>`, inline: false },
+				{ name: '**Total members:**', value: `${interaction.guild.memberCount}`, inline: false },
+			);
 
 		await interaction.reply({
-			embeds: [embed],
+			embeds: [serverEmbed],
 			ephemeral: true,
 		});
 	},

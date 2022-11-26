@@ -1,25 +1,24 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription(`Shows the current ping from the bot to the discord servers`),
-
+		.setDescription('Provides information about the bot.'),
 	async execute(interaction) {
-		
-		let embed = new EmbedBuilder()
+
+		const pingEmbed = new EmbedBuilder()
 			.setColor('#ffffff')
 			.setTitle('Bot Status:')
-			.setDescription(`
-**Bot name:** ${interaction.client.user.tag}
-**Websocket heartbeat:** ${interaction.client.ws.ping}ms.
-**Uptime:** ${interaction.client.uptime / 60000} mins
-`)
+			.addFields(
+				{ name: '**Username:**', value: `${interaction.client.user.tag}`, inline: false },
+				{ name: '**Websocket heartbeat:**', value: `${interaction.client.ws.ping}ms`, inline: false },
+				{ name: '**Uptime:**', value: `${interaction.client.uptime / 60000} mins`, inline: false },
+			);
 
 		await interaction.reply({
-			embeds: [embed],
+			embeds: [pingEmbed],
 			ephemeral: true,
 		});
 	},
