@@ -2,11 +2,13 @@
 
 Discord Bot that guards the Discord and only let in people who complete the captcha.
 
+But also has some other useful commands
+
 ## Features and technologies used
 
 - [Slash commands](https://discord.com/developers/docs/interactions/application-commands)
 - [Interactive buttons](https://discord.com/developers/docs/interactions/message-components#buttons)
-- [Discord.JS v13](https://discord.js.org/#/)
+- [Discord.JS v14](https://discord.js.org/#/)
 - [Heroku](https://www.heroku.com/)
 
 ---
