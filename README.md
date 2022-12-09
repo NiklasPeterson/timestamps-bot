@@ -1,6 +1,6 @@
-# Niklas Discord Bot
+# NP Gatekeeper
 
-Discord Bot that guards the Discord and only let in people who complete a captcha.
+Discord Bot that guards the Discord and only let in people who complete the captcha.
 
 ## Features and technologies used
 
