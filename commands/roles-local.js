@@ -40,10 +40,10 @@ module.exports = {
 					.setCustomId('securityBtn')
 					.setLabel('Security Alerts')
 					.setStyle('Secondary'),
-				new ButtonBuilder()
-					.setCustomId('scamBtn')
-					.setLabel('Scam Alerts')
-					.setStyle('Danger'),
+				// new ButtonBuilder()
+				// 	.setCustomId('scamBtn')
+				// 	.setLabel('Scam Alerts')
+				// 	.setStyle('Danger'),
 				new ButtonBuilder()
 					.setCustomId('alphaBtn')
 					.setLabel('Alpha Alerts')
