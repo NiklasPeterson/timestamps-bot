@@ -4,12 +4,29 @@
   "description": "Discord Bot that guards the niklaspeterson.eth Discord Server and only let in people who complete the captcha.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiklasPeterson/discord-bot-template.git"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
   "author": "NiklasPeterson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NiklasPeterson/discord-bot-template/issues"
+  },
+  "homepage": "https://github.com/NiklasPeterson/discord-bot-template#readme",
   "dependencies": {
-    "captcha-canvas": "3.2.1",
-    "discord.js": "14.4.0",
-    "dotenv": "^16.0.2"
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "node-fetch": "^2.6.1",
+    "captcha-canvas": "3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.29.0"
   }
 }
