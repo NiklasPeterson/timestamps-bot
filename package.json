@@ -20,13 +20,13 @@
     "url": "https://github.com/NiklasPeterson/discord-bot-template/issues"
   },
   "homepage": "https://github.com/NiklasPeterson/discord-bot-template#readme",
+  "devDependencies": {
+    "eslint": "^8.29.0"
+  },
   "dependencies": {
     "captcha-canvas": "^3.2.1",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "eslint": "^8.29.0"
   }
 }
