@@ -68,7 +68,7 @@ module.exports = async (client) => {
 **PS. The captcha is Case Sensitive.**`)
                   .setImage('attachment://captcha.png')
                   .setFooter({ text: 'You have 60 seconds to complete the captcha' }),
-                  
+
               ],
               files: [captchaImage],
               components: [enterBtnRow],
