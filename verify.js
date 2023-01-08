@@ -47,8 +47,8 @@ module.exports = async (client) => {
 					// creatings captcha
 					captcha.async = true;
 					captcha.addDecoy();
+					captcha.drawCaptcha({ size: 40 });
 					captcha.drawTrace();
-					captcha.drawCaptcha();
 
 					const captchaImage = new AttachmentBuilder(await captcha.png, { name: 'captcha.png' });
 
