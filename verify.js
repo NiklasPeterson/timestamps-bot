@@ -42,7 +42,7 @@ module.exports = async (client) => {
 					//   });
 					// }
 
-					const captcha = new Captcha();
+					const captcha = new Captcha(480, 240);
 
 					// creatings captcha
 					captcha.async = true;
