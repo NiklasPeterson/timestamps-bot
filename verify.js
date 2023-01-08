@@ -64,7 +64,7 @@ module.exports = async (client) => {
 							new EmbedBuilder()
 								.setColor('#ffffff')
 								.setTitle('Captcha Verification')
-								.setDescription(`Please press the **Enter** button below and enter the captcha code.
+								.setDescription(`Please press the **Enter** button below and submit the captcha code.
 
 **PS. The captcha is Case Sensitive.**`)
 								.setImage('attachment://captcha.png')
