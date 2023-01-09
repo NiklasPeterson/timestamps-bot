@@ -11,5 +11,6 @@ module.exports = {
 		});
 
 		require('../verify')(client);
+		require('../roles')(client);
 	},
 };
