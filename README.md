@@ -9,7 +9,6 @@ But also has some other useful commands
 - [Slash commands](https://discord.com/developers/docs/interactions/application-commands)
 - [Interactive buttons](https://discord.com/developers/docs/interactions/message-components#buttons)
 - [Discord.JS v14](https://discord.js.org/#/)
-- [Heroku](https://www.heroku.com/)
 
 ---
 
