@@ -10,7 +10,5 @@ module.exports = {
 			type: 'WATCHING',
 		});
 
-		// require('../verify')(client);
-		// require('../roles')(client);
 	},
 };
