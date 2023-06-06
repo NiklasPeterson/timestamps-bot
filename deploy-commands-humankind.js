@@ -6,11 +6,11 @@ dotenv.config();
 
 const TOKEN = process.env.LIVE_TOKEN;
 const CLIENT_ID = process.env.LIVE_CLIENT_ID;
-const GUILD_ID = process.env.NP_GUILD_ID;
+const GUILD_ID = process.env.HUMANKIND_GUILD_ID;
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('-niklas.js'));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('-humankind.js'));
 
 // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 for (const file of commandFiles) {
