@@ -38,7 +38,7 @@ module.exports = {
 
 		const type = interaction.options.getString('type');
 
-		if (type == 'robotos') {
+		if (type == 'humankind') {
 		const holdersEmbed = new EmbedBuilder()
       .setColor('#ffffff')
       .setTitle('Holders')
@@ -46,7 +46,9 @@ module.exports = {
         { name: '**Humankind:**', value: `${humankind}`, inline: true },
         { name: '**Lunchboxes:**', value: `${lunchbox}`, inline: true },
       );
-		} else {
+		} 
+		
+		if (type == 'robotos') {
 			const holdersEmbed = new EmbedBuilder()
       .setColor('#897DD8')
       .setTitle('Holders')
