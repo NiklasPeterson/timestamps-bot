@@ -1,11 +1,9 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 require('dotenv').config();
-
-const ALCHEMY_API = process.env.ALCHEMY_API;
-
 const fetch = require('node-fetch');
 
+const ALCHEMY_API = process.env.ALCHEMY_API;
 const baseURL = `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API}/getOwnersForCollection/`;
 
 module.exports = {
@@ -35,15 +33,15 @@ module.exports = {
 		let secondCollection;
 
 		if (type == 'robotos') {
-			firstCollectionName = '**Robotos a**';
-			secondCollectionName = '**Robopet b**';
+			firstCollectionName = 'Robotos';
+			secondCollectionName = 'Robopet';
 			firstCollection = robotos;
 			secondCollection = robopets;
 		}
 
 		if (type == 'humankind') {
-			firstCollectionName = '**Humankind**';
-			secondCollectionName = '**Lunchboxes**';
+			firstCollectionName = 'Humankind';
+			secondCollectionName = 'Lunchboxes';
 			firstCollection = humankind;
 			secondCollection = lunchbox;
 		}
@@ -52,8 +50,8 @@ module.exports = {
 			.setColor('#ffffff')
 			.setTitle('Holders')
 			.addFields(
-				{ name: `${firstCollectionName}`, value: `${firstCollection}`, inline: true },
-				{ name: `${secondCollectionName}`, value: `${secondCollection}`, inline: true },
+				{ name: `**${firstCollectionName}**`, value: `${firstCollection}`, inline: true },
+				{ name: `**${secondCollectionName}**`, value: `${secondCollection}`, inline: true },
 			);
 
 		await interaction.reply({
