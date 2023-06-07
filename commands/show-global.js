@@ -53,16 +53,6 @@ module.exports = {
 async function getCollectionData(type, id) {
 	let collectionData;
 
-	// if (type == 'wallet') {
-	// 	await alchemy.nft.getNftsForOwner(id, {
-	// 		contractAddresses: ['0x099689220846644f87d1137665cded7bf3422747', '0x4e962d488412a14aa37eacadcb83f18c7e2271a7'],
-	// 		withMetadata: true,
-	// 	})
-	// 		.then(data => collectionData = data.ownedNfts[0].metadata)
-	// 		.catch(err => console.error(err));
-	// 	return collectionData;
-	// }
-
 	if (type == 'roboto') {
 		await alchemy.nft.getNftMetadata(
 			'0x099689220846644f87d1137665cded7bf3422747',
