@@ -8,7 +8,7 @@ const baseURL = `https://eth-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_API}/getOwne
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('holderss')
+		.setName('holders')
 		.setDescription('Shows the amount of holders.')
 		.addStringOption(option =>
 			option.setName('type')
