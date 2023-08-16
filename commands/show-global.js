@@ -55,7 +55,7 @@ async function getCollectionData(type, id) {
 
 	if (type == 'roboto') {
 
-		if (id == 'random') {
+		if (id == 'random' || id == '?') {
 			id = (Math.floor(Math.random() * 9999) + 1).toString();
 		}
 		await alchemy.nft.getNftMetadata(
@@ -68,7 +68,7 @@ async function getCollectionData(type, id) {
 	}
 
 	if (type == 'robopet') {
-		if (id == 'random') {
+		if (id == 'random' || id == '?') {
 			id = (Math.floor(Math.random() * 8017) + 1).toString();
 		}
 		await alchemy.nft.getNftMetadata(
