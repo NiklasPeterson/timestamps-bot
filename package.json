@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/NiklasPeterson/discord-bot-template#readme",
   "devDependencies": {
-    "eslint": "^8.48.0"
+    "eslint": "^8.50.0"
   },
   "dependencies": {
     "alchemy-sdk": "^2.10.0",
