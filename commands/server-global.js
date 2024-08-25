@@ -1,12 +1,18 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('server')
-    .setDescription('Provides information about the server.'),
+    .setDescription('Provides information about the server.')
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async execute(interaction) {
+    // Check if the user has administrator permissions
+    if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+      return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
+    }
+
     // interaction.guild is the object representing the Guild in which the command was run
 
     const serverEmbed = new EmbedBuilder()
