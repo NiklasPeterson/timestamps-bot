@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const timezones = require('../utils/timezones');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,16 +17,15 @@ module.exports = {
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(12))
-    .addIntegerOption(option =>
-      option.setName('year')
-        .setDescription('Year')
-        .setRequired(true)
-        .setMinValue(1970)
-        .setMaxValue(2100))
     .addStringOption(option =>
       option.setName('time')
         .setDescription('Time in HH:MM format')
         .setRequired(true))
+    .addStringOption(option =>
+      option.setName('timezone')
+        .setDescription('Your timezone')
+        .setRequired(true)
+        .setAutocomplete(true))
     .addStringOption(option =>
       option.setName('format')
         .setDescription('Timestamp format')
@@ -38,11 +38,17 @@ module.exports = {
           { name: 'Short Date/Time (e.g., 13 June 2024 9:41 PM)', value: 'f' },
           { name: 'Long Date/Time (e.g., Wednesday, 13 June 2024 9:41 PM)', value: 'F' },
           { name: 'Relative Time (e.g., in 8 hours / 2 months ago)', value: 'R' }
-        )),
+        ))
+    .addIntegerOption(option =>
+      option.setName('year')
+        .setDescription('Year (defaults to current year)')
+        .setRequired(false)
+        .setMinValue(1970)
+        .setMaxValue(2100)),
   async execute(interaction) {
     const day = interaction.options.getInteger('day');
     const month = interaction.options.getInteger('month');
-    const year = interaction.options.getInteger('year');
+    const year = interaction.options.getInteger('year') || new Date().getFullYear();
     const time = interaction.options.getString('time');
 
     // Parse time
@@ -52,9 +58,18 @@ module.exports = {
       return interaction.reply({ content: 'Invalid time format. Please use HH:MM (24-hour format).', ephemeral: true });
     }
 
+    const timezone = interaction.options.getString('timezone');
+
     // Create Date object and get Unix timestamp
-    const date = new Date(year, month - 1, day, hours, minutes);
+    const date = new Date(Date.UTC(year, month - 1, day, hours, minutes));
+    const offsetMinutes = parseInt(timezone.slice(1, 3)) * 60 + parseInt(timezone.slice(4));
+    date.setMinutes(date.getMinutes() - (timezone.startsWith('-') ? -offsetMinutes : offsetMinutes));
+    
     const unixTimestamp = Math.floor(date.getTime() / 1000);
+
+    if (isNaN(unixTimestamp)) {
+      return interaction.reply({ content: 'Invalid date. Please check your input.', ephemeral: true });
+    }
 
     const format = interaction.options.getString('format') || 'f';
     const formattedTimestamp = `<t:${unixTimestamp}:${format}>`;
@@ -63,6 +78,13 @@ module.exports = {
       content: `Preview: ${formattedTimestamp}\n\`\`\`${formattedTimestamp}\`\`\`Copy and paste the above snippet where needed.`,
       ephemeral: true
     });
+  },
 
+  async autocomplete(interaction) {
+    const focusedValue = interaction.options.getFocused().toLowerCase();
+    const filtered = timezones.filter(choice => choice.name.toLowerCase().includes(focusedValue));
+    await interaction.respond(
+      filtered.map(choice => ({ name: choice.name, value: choice.value })).slice(0, 25)
+    );
   },
 };
