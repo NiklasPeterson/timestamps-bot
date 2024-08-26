@@ -1,6 +1,6 @@
-# NP Gatekeeper
+# Timestamps Discord Bot
 
-Discord Bot that guards the Discord and only let in people who complete the captcha.
+Discord Bot that allows you to generate and share UNIX timestamps directly inside Discord.
 
 But also has some other useful commands
 
@@ -16,19 +16,20 @@ But also has some other useful commands
 
 ```
 ├── commands
-│   ├── addVerifyLink.js
-│   ├── beep.js
-│   ├── captcha.js
-│   ├── roles.js
+│   ├── create.js
+│   ├── ping.js
+│   ├── share.js
 ├── events
 │   ├── interactionCreate.js
 │   ├── ready.js
 ├── .env.sample
-.gitignore
+├── .eslintrc.json
+├── .gitignore
 ├── deploy-commands.js
+├── deploy-commands-dev.js
 ├── index.js
+├── LICENSE
 ├── package.json
-├── Procfile
+├── package-lock.json
 ├── README.md
-└── verify.js
 ```
