@@ -1,6 +1,6 @@
 # Timestamps Discord Bot
 
-## Terms & Conditions
+## Terms of Service
 
 This bot is a free and open-source project developed and maintained by a single individual. Please consider this when using the bot and adjust your expectations accordingly.
 
