@@ -45,13 +45,13 @@ for (const file of commandFiles) {
 
 // Listen for when the bot joins a new server (guild)
 client.on('guildCreate', guild => {
-	console.log(`Joined a new server: ${guild.name}`);
+	console.log(`Joined a new server: ${guild.name} (${guild.id})`);
 	updateBotActivity(client);
 });
 
 // Listen for when the bot is removed from a server
 client.on('guildDelete', guild => {
-	console.log(`Removed from a server: ${guild.name}`);
+	console.log(`Removed from a server: ${guild.name} (${guild.id})`);
 	updateBotActivity(client);
 });
 
