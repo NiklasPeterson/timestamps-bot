@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 // Require the necessary discord.js classes
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { updateBotActivity } = require('./utils/updateActivity');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -41,6 +42,18 @@ for (const file of commandFiles) {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 }
+
+// Listen for when the bot joins a new server (guild)
+client.on('guildCreate', guild => {
+	console.log(`Joined a new server: ${guild.name}`);
+	updateBotActivity(client);
+});
+
+// Listen for when the bot is removed from a server
+client.on('guildDelete', guild => {
+	console.log(`Removed from a server: ${guild.name}`);
+	updateBotActivity(client);
+});
 
 // Log in to Discord with your client's token
 client.login(TOKEN);
