@@ -4,7 +4,7 @@ Discord Bot that allows you to generate and share UNIX timestamps directly insid
 
 But also has some other useful commands
 
-## Features and technologies used
+## Features and technologies used:
 
 - [Slash commands](https://discord.com/developers/docs/interactions/application-commands)
 - [Interactive buttons](https://discord.com/developers/docs/interactions/message-components#buttons)
